@@ -1,0 +1,10 @@
+
+
+<div class="carta" (click)="cartaClick.emit()" [@cardFlip]='data.state'>
+    <div class="trasera">
+        <img src="../../assets/carta-trasera.jpg">
+    </div>
+    <div class='frontal'>
+        <img [src]="'https://source.unsplash.com/' + data.imagenId + '/200x300'">
+    </div>
+</div>
