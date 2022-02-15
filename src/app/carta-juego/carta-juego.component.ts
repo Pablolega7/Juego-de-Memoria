@@ -27,20 +27,21 @@ import { CartaData } from '../interfaces/cartaData';
       ]),
       transition('* => matched', [
         animate('200ms')
-      ])
-    ])
-  ]
+      ]),
+    ]),
+  ],
 })
+
 export class CartaJuegoComponent implements OnInit {
 
-  @Input() data!:CartaData;
+  @Input() data!: CartaData;
 
-  @Output() cartaClick=new EventEmitter()
+  @Output() cartaClick = new EventEmitter();
   
 
-  constructor() { }
+  constructor() { };
 
   ngOnInit(): void {
-  }
+  };
 
-}
+};

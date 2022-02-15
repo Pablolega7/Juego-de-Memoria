@@ -10,11 +10,11 @@ import { ResetarDiaologoComponent } from './resetar-diaologo/resetar-diaologo.co
 })
 export class AppComponent implements OnInit {
   
-  cartas:CartaData[]=[];
-  cartaVolteada:CartaData[]=[];
-  contador=0;
+  cartas:CartaData[] = [];
+  cartaVolteada:CartaData[] = [];
+  contador = 0;
 
-  cartasImg=[
+  cartasImg = [
     'pDGNBK9A0sk',
     'fYDrhbVlV1E',
     'qoXgaF27zBc',
@@ -23,78 +23,74 @@ export class AppComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.cargarCartas()
+    this.cargarCartas();
   };
 
   constructor(private dialogo:MatDialog){}
 
   cargarCartas(){
 
-    this.cartas=[];
+    this.cartas = [ ...[] ];
 
-    this.cartasImg.forEach((image)=>{
+    this.cartasImg.forEach(( image ) => {
 
-      const CartaData:CartaData={
+      const CartaData:CartaData = {
         imagenId:image,
         state:'default'
       };
-      this.cartas.push({...CartaData});
-      this.cartas.push({...CartaData});
+      this.cartas.push( {...CartaData} );
+      this.cartas.push( {...CartaData} );
     });
-    this.cartas=this.shuffleArray(this.cartas)
+    this.cartas = this.shuffleArray(this.cartas);
   };
 
   shuffleArray(arreglo:any[]): any[] {
     return arreglo.map(a => [Math.random(), a])
-      .sort((a, b) => a[0] - b[0])
-      .map(a => a[1]);
+      .sort( (a, b) => a[0] - b[0] )
+      .map( a => a[1] );
   };
 
   cartaClick(index:number){
 
-    const carta=this.cartas[index];
+    const carta = this.cartas[index];
 
-    if (carta.state==='default' && this.cartaVolteada.length<2) {
-      carta.state='flipped'
-      this.cartaVolteada.push(carta);
+    if ( carta.state === 'default' && this.cartaVolteada.length < 2 ) {
+      carta.state = 'flipped';
+      this.cartaVolteada.push( carta );
 
-     if(this.cartaVolteada.length===2){
-      this.checkCarta();
+     if( this.cartaVolteada.length === 2) this.checkCarta(); 
     }
-  }
-     else if(carta.state==='flipped'){
-      carta.state='default';
-      this.cartaVolteada.pop()
+     else if( carta.state === 'flipped' ){
+      carta.state = 'default';
+      this.cartaVolteada.pop();
     }
   };
 
   checkCarta(){
     setTimeout(()=>{
 
-      const cartaUno=this.cartaVolteada[0];
-      const cartaDos=this.cartaVolteada[1];
-      const nextCard=cartaUno.imagenId===cartaDos.imagenId ?'matched':'default';
-      cartaUno.state=cartaDos.state=nextCard;
-
-      this.cartaVolteada=[];
-
-      if (nextCard==='matched') {
+      const cartaUno = this.cartaVolteada[0];
+      const cartaDos = this.cartaVolteada[1];
+      const nextCard = ( cartaUno.imagenId === cartaDos.imagenId ) ? 'matched':'default';
+      cartaUno.state = cartaDos.state = nextCard;
+      this.cartaVolteada = [...[]];
+      if ( nextCard === 'matched' ) {
         this.contador ++;
-       if (this.contador===this.cartasImg.length) {
-        const dialogo=this.dialogo.open(ResetarDiaologoComponent,{
-          disableClose:true
+       if ( this.contador === this.cartasImg.length ) {
+        const dialogo = this.dialogo.open(ResetarDiaologoComponent,{
+          disableClose: true
         });
         dialogo.afterClosed().subscribe(()=>{
-          this.reset()
-        })
+          this.reset();
+        });
       }
-    }
-    },1500)
+    };
+    }, 1500)
   };
 
   reset(){
-    this.contador=0;
-    this.cargarCartas()
+    this.contador = 0;
+    this.cargarCartas();
   };
 };
 
